@@ -2,6 +2,9 @@
 - hosts: all
   vars:
     ask_become_pass: true
+  # We prompt for the vars as we need to override the ansible
+  # configuration. We could set these in variables, but as they include a
+  # password, it makes sense to prompt instead.
   vars_prompt:
     - name: ansible_ssh_user
       prompt: "Ansible user for SSH"

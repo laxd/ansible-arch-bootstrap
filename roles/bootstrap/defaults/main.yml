@@ -1,3 +1,4 @@
 ---
-user: lawrence
-ansible_user: root
+# User to create, leave blank to skip user creation
+# user: laxd
+
