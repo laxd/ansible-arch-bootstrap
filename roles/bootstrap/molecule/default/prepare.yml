@@ -1,0 +1,8 @@
+---
+- name: Prepare
+  hosts: all
+  tasks:
+  - name: "Remove python, to emulate a system that has nothing installed"
+    package:
+      name: "python"
+      state: absent

@@ -1,13 +1,4 @@
 ---
-- name: "Ensure SSH is installed"
-  package:
-    name: openssh-server
-    state: present
-
-- name: "Install python (required for ansible)"
-  package:
-    name: python
-    state: present
 
 - name: "Install sudo"
   package:
@@ -18,21 +9,13 @@
   group:
     name: sudo
     state: present
-
+ 
 - name: "Create user"
   user:
     name: "{{ user }}"
     groups: sudo
     append: true
     state: present
-  when: user is defined
-
-- name: "Copy SSH key for {{ user }}"
-  authorized_key:
-    user: "{{ user }}"
-    state: present
-    key: "{{ lookup('file', '/home/{{ user }}/.ssh/id_rsa.pub') }}"
-  when: user is defined
 
 - name: "Allow sudo group passwordless sudo"
   lineinfile:
@@ -48,15 +31,15 @@
     line: "PermitRootLogin no"
   notify: Restart SSH
 
+- name: "Copy ansible SSH key"
+  authorized_key:
+    user: "{{ user }}"
+    state: present
+    key: "{{ lookup('file', '/home/{{ user }}/.ssh/id_rsa.pub') }}"
+
 - name: "Disable password login"
   lineinfile:
     path: /etc/ssh/sshd_config
     regexp: ".*PasswordAuthentication .*"
     line: "PasswordAuthentication no"
   notify: Restart SSH
-
-- name: "Enable SSH"
-  service:
-    name: sshd
-    state: started
-    enabled: yes
