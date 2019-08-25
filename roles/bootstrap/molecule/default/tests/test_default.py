@@ -9,5 +9,4 @@ testinfra_hosts = testinfra.utils.ansible_runner.AnsibleRunner(
 
 def test_ssh_installed(host):
     ssh = host.service("sshd")
-    #assert ssh.is_running
-    #assert ssh.is_enabled
+    assert ssh.is_running

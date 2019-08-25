@@ -58,5 +58,4 @@
 - name: "Enable SSH"
   service:
     name: sshd
-    state: started
     enabled: yes

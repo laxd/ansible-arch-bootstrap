@@ -10,7 +10,9 @@ pipeline {
                 }
             }
             steps {
-                sh 'molecule test'
+                dir('roles/bootstrap') {
+                    sh 'molecule test'
+                }
             }
         }
     }
