@@ -1,6 +1,8 @@
 ---
 - hosts: all
   vars:
+    user: lawrence
+    ssh_key_loc: /home/lawrence/.ssh/id_rsa.pub
     ask_become_pass: true
   # We prompt for the vars as we need to override the ansible
   # configuration. We could set these in variables, but as they include a
@@ -11,6 +13,9 @@
       private: no
     - name: ansible_ssh_pass
       prompt: "SSH password"
+      private: yes
+    - name: ansible_sudo_pass
+      prompt: "Sudo password"
       private: yes
   roles:
     - { role: bootstrap, become: yes }

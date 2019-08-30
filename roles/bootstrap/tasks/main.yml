@@ -1,18 +1,23 @@
 ---
-- name: "Ensure SSH is installed"
+- name: "Install depdencies for ansible"
+  package:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - python
+    - sudo
+
+- name: "Ensure SSH is installed (Arch)"
+  package:
+    name: openssh
+    state: present
+  when: ansible_os_family == 'Archlinux'
+
+- name: "Ensure SSH is installed (non-Arch)"
   package:
     name: openssh-server
     state: present
-
-- name: "Install python (required for ansible)"
-  package:
-    name: python
-    state: present
-
-- name: "Install sudo"
-  package:
-    name: sudo
-    state: present
+  when: not ansible_os_family == 'Archlinux'
 
 - name: "Create sudo group"
   group:
@@ -25,14 +30,12 @@
     groups: sudo
     append: true
     state: present
-  when: user is defined
 
-- name: "Copy SSH key for {{ user }}"
+- name: "Copy SSH key"
   authorized_key:
     user: "{{ user }}"
     state: present
-    key: "{{ lookup('file', '/home/{{ user }}/.ssh/id_rsa.pub') }}"
-  when: user is defined
+    key: "{{ lookup('file', ssh_key_loc) }}"
 
 - name: "Allow sudo group passwordless sudo"
   lineinfile:
