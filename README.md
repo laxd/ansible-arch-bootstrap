@@ -8,4 +8,4 @@ The requirements that need to be made before running this role:
 
 To run:
 
-ansible-playbook bootstrap.yml
+    ansible-playbook bootstrap.yml
