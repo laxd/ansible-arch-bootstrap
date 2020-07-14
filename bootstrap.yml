@@ -15,7 +15,8 @@
       prompt: "SSH password"
       private: yes
     - name: ansible_sudo_pass
-      prompt: "Sudo password"
+      prompt: "Sudo password (if ansible user requires auth)"
       private: yes
+  gather_facts: no
   roles:
     - { role: bootstrap, become: yes }

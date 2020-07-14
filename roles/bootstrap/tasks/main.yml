@@ -1,23 +1,9 @@
 ---
-- name: "Install depdencies for ansible"
-  package:
-    name: "{{ item }}"
-    state: present
-  loop:
-    - python
-    - sudo
+- name: "Install dependencies for ansible"
+  raw: pacman -S --noconfirm python2 sudo
 
-- name: "Ensure SSH is installed (Arch)"
-  package:
-    name: openssh
-    state: present
-  when: ansible_os_family == 'Archlinux'
-
-- name: "Ensure SSH is installed (non-Arch)"
-  package:
-    name: openssh-server
-    state: present
-  when: not ansible_os_family == 'Archlinux'
+- name: "Force gather facts"
+  setup:
 
 - name: "Create sudo group"
   group:
