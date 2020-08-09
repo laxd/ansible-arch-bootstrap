@@ -1,6 +1,6 @@
 ---
 - name: "Install dependencies for ansible"
-  raw: pacman -S --noconfirm python2 sudo
+  raw: apt-get install python sudo -qq || pacman -S --noconfirm python2 sudo
 
 - name: "Force gather facts"
   setup:
